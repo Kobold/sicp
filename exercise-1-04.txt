@@ -1,0 +1,3 @@
+The value of b is used to choose an operator to apply with arguments a
+and b. If b is greater than zero, plus is applied to a and b. If b is
+less than zero then a minus b is computed.

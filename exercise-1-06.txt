@@ -1,0 +1,6 @@
+When Alyssa attempts to use new-if to compute square roots, the
+interpreter will enter an infinite recursion and won't return a value.
+This is because new-if is strictly evaluated unlike the special form
+if. Even though (good-enough? guess x) is eventually true the
+(sqrt-iter ...) alternative to new-if will still be evaluated, and this
+will continue until the interpreter blows up.

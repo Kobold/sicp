@@ -1,0 +1,14 @@
+In an interpreter that uses applicative-order evaluation, when:
+
+(test 0 (p))
+
+is evaluated, the interpreter will first try to evaluate the
+arguments. Because the function p recurses infinitely, the interpreter
+will just sit there evaluating p forever. In a normal-order
+interpreter, test will first be expanded out to:
+
+(if (= 0 0) 0 (p))
+
+At this point the semantics of if evaluate the predicate, which is
+true, then we evaluate and return the consequent 0. Because (p) is
+never evaluated, we never get stuck in its infinite recursion.
