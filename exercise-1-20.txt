@@ -1,0 +1,49 @@
+Evaluating in applicative order: 1 + 1 + 1 + 1 = 4 operations
+(gcd 206 40)
+(if (= 40 0) 206 (gcd 40 (r 206 40))) ; 1 operation
+(if (= 40 0) 206 (gcd 40 6))
+(gcd 40 6)
+(if (= 6 0) 40 (gcd 6 (r 40 6))) ; 1 operation
+(if (= 6 0) 40 (gcd 6 4))
+(gcd 6 4)
+(if (= 4 0) 6 (gcd 4 (r 6 4))) ; 1 operation
+(if (= 4 0) 6 (gcd 4 2))
+(gcd 4 2)
+(if (= 2 0) 4 (gcd 2 (r 4 2))) ; 1 operation
+(if (= 2 0) 4 (gcd 2 0))
+(gcd 2 0)
+(if (= 0 0) 2 (gcd 0 (r 2 0)))
+2
+
+Evaluating in normal order: 1 + 2 + 4 + 7 + 4 = 18 operations
+
+(gcd 206 40)
+(if (= 40 0)
+    206
+    (gcd 40 (r 206 40)))
+
+(gcd 40 (r 206 40))
+(if (= (r 206 40) 0) ; 1 evaluation
+    40
+    (gcd (r 206 40) (r 40 (r 206 40))))
+
+(gcd (r 206 40) (r 40 (r 206 40)))
+(if (= (r 40 (r 206 40)) 0) ; 2 evaluations
+    (r 206 40)
+    (gcd (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40)))))
+
+(gcd (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40))))
+(if (= (r (r 206 40) (r 40 (r 206 40))) 0) ; 4 evaluations
+    (r 40 (r 206 40))
+    (gcd (r (r 206 40) (r 40 (r 206 40)))
+         (r (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40))))))
+
+(gcd (r (r 206 40) (r 40 (r 206 40)))
+     (r (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40)))))
+(if (= (r (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40)))) 0) ; 7 evaluations
+    (r (r 206 40) (r 40 (r 206 40)))
+    (gcd (r (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40))))
+         (r (r (r 206 40) (r 40 (r 206 40)))
+              (r (r 40 (r 206 40)) (r (r 206 40) (r 40 (r 206 40)))))))
+
+(r (r 206 40) (r 40 (r 206 40))) ; 4 evaluations
