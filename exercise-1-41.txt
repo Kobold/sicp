@@ -1,0 +1,33 @@
+Exercise 1.41.  Define a procedure double that takes a procedure of one argument as argument and
+returns a procedure that applies the original procedure twice. For example, if inc is a procedure
+that adds 1 to its argument, then (double inc) should be a procedure that adds 2. What value is
+returned by
+
+(((double (double double)) inc) 5)
+
+Prelude> (double (double double)) (+1) 5
+21
+
+----
+
+Proof:
+
+double :: (a -> a) -> (a -> a)
+double f = \x -> f (f x) -- or = f . f
+
+(double (double double)) (+1)
+(double (double . double)) (+1)
+((double . double) . (double . double)) (+1)
+(double . double . double . double) (+1)
+
+double (+1) = (+1) . (+1) = (+2)
+(double . double) (+1) = ((+1) . (+1)) . ((+1) . (+1)) = (+4)
+(double . double . double) (+1)
+ = (((+1) . (+1)) . ((+1) . (+1))) . (((+1) . (+1)) . ((+1) . (+1))) = (+8)
+(double . double . double . double) (+1)
+ = ((((+1) . (+1)) . ((+1) . (+1))) . (((+1) . (+1)) . ((+1) . (+1)))) + ...
+   ((((+1) . (+1)) . ((+1) . (+1))) . (((+1) . (+1)) . ((+1) . (+1)))) = (+16)
+
+
+(double . double . double . double) (+1) 5 =
+(+16) 5 = 32.
